@@ -24,11 +24,13 @@ const requestHandler = (req, res) => {
             const parsedData = Buffer.concat(body).toString();
             user = parsedData.split('=')[1];
             console.log(user);
-            
-            fs.writeFile('users.txt', user, () => {
-                res.statusCode = 308;
-                res.setHeader('Location', '/user');
-                return res.end();
+
+            fs.writeFile('users.txt', user, (err) => {
+                if (err != null) {
+                    res.statusCode = 308;
+                    res.setHeader('Location', '/user');
+                    return res.end();
+                }
             });
         });
     }
